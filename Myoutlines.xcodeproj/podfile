@@ -1,0 +1,4 @@
+target project ’/Users/mayafrai/Desktop/Myoutlines/Myoutlines.xcodeprojs.xcodeproj’ do
+    pod ‘RevealingSpashView’
+    pod 'DGElasticPullToRefresh'
+end

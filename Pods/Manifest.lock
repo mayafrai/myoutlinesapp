@@ -1,0 +1,28 @@
+PODS:
+  - DGElasticPullToRefresh (1.1)
+  - PMAlertController (2.1.2)
+  - RevealingSplashView (0.2.0)
+  - SwipeCellKit (2.4.3)
+
+DEPENDENCIES:
+  - DGElasticPullToRefresh
+  - PMAlertController
+  - RevealingSplashView
+  - SwipeCellKit
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - DGElasticPullToRefresh
+    - PMAlertController
+    - RevealingSplashView
+    - SwipeCellKit
+
+SPEC CHECKSUMS:
+  DGElasticPullToRefresh: 28f11a6026302a90f8ffebbc6e24748e584dddd3
+  PMAlertController: 0fbcc3d1cee86ee0bd85f693ca85f6388e504ec8
+  RevealingSplashView: a19962358db66188841c73afd51eb663a29f75cd
+  SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
+
+PODFILE CHECKSUM: 157ef707529ed52051ac42e8c85224b1747d6f80
+
+COCOAPODS: 1.5.3
