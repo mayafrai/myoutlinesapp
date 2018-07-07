@@ -1,7 +1,7 @@
 PODS:
   - DGElasticPullToRefresh (1.1)
-  - PMAlertController (2.1.2)
-  - RevealingSplashView (0.2.0)
+  - PMAlertController (3.4.0)
+  - RevealingSplashView (0.5.0)
   - SwipeCellKit (2.4.3)
 
 DEPENDENCIES:
@@ -19,10 +19,10 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   DGElasticPullToRefresh: 28f11a6026302a90f8ffebbc6e24748e584dddd3
-  PMAlertController: 0fbcc3d1cee86ee0bd85f693ca85f6388e504ec8
-  RevealingSplashView: a19962358db66188841c73afd51eb663a29f75cd
+  PMAlertController: efb781925d741d50e0200018a00c53cecb8b4910
+  RevealingSplashView: 0794eecad3a8983ac11a1fe474e9a9b51b926780
   SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
 
-PODFILE CHECKSUM: 157ef707529ed52051ac42e8c85224b1747d6f80
+PODFILE CHECKSUM: 57f930aeec44967d63f24aff46238c9fc909ff0b
 
 COCOAPODS: 1.5.3

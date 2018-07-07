@@ -3,7 +3,7 @@
 //  PMAlertController
 //
 //  Created by Paolo Musolino on 07/05/16.
-//  Copyright © 2016 Codeido. All rights reserved.
+//  Copyright © 2018 Codeido. All rights reserved.
 //
 
 import UIKit
@@ -18,9 +18,9 @@ import UIKit
     
     fileprivate var action: (() -> Void)?
     
-    open var actionStyle : PMAlertActionStyle
+    @objc open var actionStyle : PMAlertActionStyle
     
-    var separator = UIImageView()
+    @objc open var separator = UIImageView()
     
     init(){
         self.actionStyle = .cancel
@@ -31,9 +31,8 @@ import UIKit
         self.init()
         
         self.action = action
+        self.addTarget(self, action: #selector(PMAlertAction.tapped(_:)), for: .touchUpInside)
         
-        self.addTarget(self, action: #selector(PMAlertAction.tapped(_:)), for: UIControlEvents.touchUpInside)
-    
         self.setTitle(title, for: UIControlState())
         self.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 17)
         
@@ -48,7 +47,10 @@ import UIKit
     }
     
     @objc func tapped(_ sender: PMAlertAction) {
-        self.action?()
+        //Action need to be fired after alert dismiss
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            self?.action?()
+        }
     }
     
     @objc fileprivate func addSeparator(){

@@ -56,7 +56,7 @@ public extension NSObject {
     // MARK: -
     // MARK: Methods
     
-    public func dg_addObserver(_ observer: NSObject, forKeyPath keyPath: String) {
+    @objc public func dg_addObserver(_ observer: NSObject, forKeyPath keyPath: String) {
         let observerInfo = [keyPath : observer]
         
         if dg_observers.index(where: { $0 == observerInfo }) == nil {
@@ -65,7 +65,7 @@ public extension NSObject {
         }
     }
     
-    public func dg_removeObserver(_ observer: NSObject, forKeyPath keyPath: String) {
+    @objc public func dg_removeObserver(_ observer: NSObject, forKeyPath keyPath: String) {
         let observerInfo = [keyPath : observer]
         
         if let index = dg_observers.index(where: { $0 == observerInfo}) {
@@ -99,7 +99,7 @@ public extension UIScrollView {
     
     // MARK: - Methods (Public)
     
-    public func dg_addPullToRefreshWithActionHandler(_ actionHandler: @escaping () -> Void, loadingView: DGElasticPullToRefreshLoadingView?) {
+    @objc public func dg_addPullToRefreshWithActionHandler(_ actionHandler: @escaping () -> Void, loadingView: DGElasticPullToRefreshLoadingView?) {
         isMultipleTouchEnabled = false
         panGestureRecognizer.maximumNumberOfTouches = 1
 
@@ -112,21 +112,21 @@ public extension UIScrollView {
         pullToRefreshView.observing = true
     }
     
-    public func dg_removePullToRefresh() {
+    @objc public func dg_removePullToRefresh() {
         pullToRefreshView?.disassociateDisplayLink()
         pullToRefreshView?.observing = false
         pullToRefreshView?.removeFromSuperview()
     }
     
-    public func dg_setPullToRefreshBackgroundColor(_ color: UIColor) {
+    @objc public func dg_setPullToRefreshBackgroundColor(_ color: UIColor) {
         pullToRefreshView?.backgroundColor = color
     }
     
-    public func dg_setPullToRefreshFillColor(_ color: UIColor) {
+    @objc public func dg_setPullToRefreshFillColor(_ color: UIColor) {
         pullToRefreshView?.fillColor = color
     }
     
-    public func dg_stopLoading() {
+    @objc public func dg_stopLoading() {
         pullToRefreshView?.stopLoading()
     }
 }
@@ -135,7 +135,7 @@ public extension UIScrollView {
 // MARK: (UIView) Extension
 
 public extension UIView {
-    func dg_center(_ usePresentationLayerIfPossible: Bool) -> CGPoint {
+    @objc func dg_center(_ usePresentationLayerIfPossible: Bool) -> CGPoint {
         if usePresentationLayerIfPossible, let presentationLayer = layer.presentation() {
             // Position can be used as a center, because anchorPoint is (0.5, 0.5)
             return presentationLayer.position
@@ -148,7 +148,7 @@ public extension UIView {
 // MARK: (UIPanGestureRecognizer) Extension
 
 public extension UIPanGestureRecognizer {
-    func dg_resign() {
+    @objc func dg_resign() {
         isEnabled = false
         isEnabled = true
     }

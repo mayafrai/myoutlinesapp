@@ -28,26 +28,26 @@ protocol SwipeControllerDelegate: class {
 class SwipeController: NSObject {
     
     weak var swipeable: (UIView & Swipeable)?
-    weak var actionsContainerView: UIView?
+    @objc weak var actionsContainerView: UIView?
     
     weak var delegate: SwipeControllerDelegate?
-    weak var scrollView: UIScrollView?
+    @objc weak var scrollView: UIScrollView?
     
     var animator: SwipeAnimator?
     
-    let elasticScrollRatio: CGFloat = 0.4
+    @objc let elasticScrollRatio: CGFloat = 0.4
     
-    var originalCenter: CGFloat = 0
-    var scrollRatio: CGFloat = 1.0
-    var originalLayoutMargins: UIEdgeInsets = .zero
+    @objc var originalCenter: CGFloat = 0
+    @objc var scrollRatio: CGFloat = 1.0
+    @objc var originalLayoutMargins: UIEdgeInsets = .zero
     
-    lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+    @objc lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
         gesture.delegate = self
         return gesture
     }()
     
-    lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+    @objc lazy var tapGestureRecognizer: UITapGestureRecognizer = {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(gesture:)))
         gesture.delegate = self
         return gesture
@@ -236,7 +236,7 @@ class SwipeController: NSObject {
         swipeable.state = .dragging
     }
     
-    func animate(duration: Double = 0.7, toOffset offset: CGFloat, withInitialVelocity velocity: CGFloat = 0, completion: ((Bool) -> Void)? = nil) {
+    @objc func animate(duration: Double = 0.7, toOffset offset: CGFloat, withInitialVelocity velocity: CGFloat = 0, completion: ((Bool) -> Void)? = nil) {
         stopAnimatorIfNeeded()
         
         swipeable?.layoutIfNeeded()
@@ -276,7 +276,7 @@ class SwipeController: NSObject {
         animator.startAnimation()
     }
     
-    func traitCollectionDidChange(from previousTraitCollrection: UITraitCollection?, to traitCollection: UITraitCollection) {
+    @objc func traitCollectionDidChange(from previousTraitCollrection: UITraitCollection?, to traitCollection: UITraitCollection) {
         guard let swipeable = self.swipeable,
             let actionsContainerView = self.actionsContainerView,
             previousTraitCollrection != nil else {
@@ -291,7 +291,7 @@ class SwipeController: NSObject {
         }        
     }
     
-    func stopAnimatorIfNeeded() {
+    @objc func stopAnimatorIfNeeded() {
         if animator?.isRunning == true {
             animator?.stopAnimation(true)
         }
@@ -318,19 +318,19 @@ class SwipeController: NSObject {
         }
     }
     
-    func targetCenter(active: Bool) -> CGFloat {
+    @objc func targetCenter(active: Bool) -> CGFloat {
         guard let swipeable = self.swipeable else { return 0 }
         guard let actionsView = swipeable.actionsView, active == true else { return swipeable.bounds.midX }
         
         return swipeable.bounds.midX - actionsView.preferredWidth * actionsView.orientation.scale
     }
     
-    func configure() {
+    @objc func configure() {
         swipeable?.addGestureRecognizer(tapGestureRecognizer)
         swipeable?.addGestureRecognizer(panGestureRecognizer)
     }
     
-    func reset() {
+    @objc func reset() {
         swipeable?.state = .center
         
         swipeable?.actionsView?.removeFromSuperview()
@@ -367,11 +367,11 @@ extension SwipeController: UIGestureRecognizerDelegate {
 }
 
 extension SwipeController: SwipeActionsViewDelegate {
-    func swipeActionsView(_ swipeActionsView: SwipeActionsView, didSelect action: SwipeAction) {
+    @objc func swipeActionsView(_ swipeActionsView: SwipeActionsView, didSelect action: SwipeAction) {
         perform(action: action)
     }
     
-    func perform(action: SwipeAction) {
+    @objc func perform(action: SwipeAction) {
         guard let actionsView = swipeable?.actionsView else { return }
         
         if action == actionsView.expandableAction, let expansionStyle = actionsView.options.expansionStyle {
@@ -389,7 +389,7 @@ extension SwipeController: SwipeActionsViewDelegate {
         }
     }
     
-    func perform(action: SwipeAction, hide: Bool) {
+    @objc func perform(action: SwipeAction, hide: Bool) {
         guard let indexPath = swipeable?.indexPath else { return }
 
         if hide {
@@ -455,7 +455,7 @@ extension SwipeController: SwipeActionsViewDelegate {
         }
     }
     
-    func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
+    @objc func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
         guard var swipeable = self.swipeable, let actionsContainerView = self.actionsContainerView else { return }
         guard swipeable.state == .left || swipeable.state == .right else { return }
         guard let actionView = swipeable.actionsView else { return }
@@ -484,7 +484,7 @@ extension SwipeController: SwipeActionsViewDelegate {
                        completion: completion)
     }
     
-    func setSwipeOffset(_ offset: CGFloat, animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
+    @objc func setSwipeOffset(_ offset: CGFloat, animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
         guard var swipeable = self.swipeable, let actionsContainerView = self.actionsContainerView else { return }
         
         guard offset != 0 else {

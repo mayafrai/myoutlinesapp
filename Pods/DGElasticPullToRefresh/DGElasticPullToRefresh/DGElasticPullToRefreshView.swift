@@ -75,9 +75,9 @@ open class DGElasticPullToRefreshView: UIView {
     
     fileprivate var displayLink: CADisplayLink!
     
-    var actionHandler: (() -> Void)!
+    @objc var actionHandler: (() -> Void)!
     
-    var loadingView: DGElasticPullToRefreshLoadingView? {
+    @objc var loadingView: DGElasticPullToRefreshLoadingView? {
         willSet {
             loadingView?.removeFromSuperview()
             if let newValue = newValue {
@@ -86,7 +86,7 @@ open class DGElasticPullToRefreshView: UIView {
         }
     }
     
-    var observing: Bool = false {
+    @objc var observing: Bool = false {
         didSet {
             guard let scrollView = scrollView() else { return }
             if observing {
@@ -103,7 +103,7 @@ open class DGElasticPullToRefreshView: UIView {
         }
     }
     
-    var fillColor: UIColor = .clear { didSet { shapeLayer.fillColor = fillColor.cgColor } }
+    @objc var fillColor: UIColor = .clear { didSet { shapeLayer.fillColor = fillColor.cgColor } }
     
     // MARK: Views
     
@@ -153,7 +153,7 @@ open class DGElasticPullToRefreshView: UIView {
     /**
     Has to be called when the receiver is no longer required. Otherwise the main loop holds a reference to the receiver which in turn will prevent the receiver from being deallocated.
     */
-    func disassociateDisplayLink() {
+    @objc func disassociateDisplayLink() {
         displayLink?.invalidate()
     }
 
@@ -206,7 +206,7 @@ open class DGElasticPullToRefreshView: UIView {
         return superview as? UIScrollView
     }
     
-    func stopLoading() {
+    @objc func stopLoading() {
         // Prevent stop close animation
         if state == .animatingToStopped {
             return

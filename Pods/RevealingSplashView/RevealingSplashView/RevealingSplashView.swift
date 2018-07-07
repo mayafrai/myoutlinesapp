@@ -15,7 +15,7 @@ open class RevealingSplashView: UIView, SplashAnimatable{
     
     
     /// The icon image to show and reveal with
-    open var iconImage: UIImage? {
+    @objc open var iconImage: UIImage? {
         
         didSet{
             if let iconImage = self.iconImage{
@@ -26,7 +26,7 @@ open class RevealingSplashView: UIView, SplashAnimatable{
     }
     
     ///The icon color of the image, defaults to white
-    open var iconColor: UIColor = UIColor.white{
+    @objc open var iconColor: UIColor = UIColor.white{
         
         didSet{
             
@@ -35,27 +35,27 @@ open class RevealingSplashView: UIView, SplashAnimatable{
             
     }
     
-    open var useCustomIconColor: Bool = false{
+    @objc open var useCustomIconColor: Bool = false{
         
         didSet{
             
             if(useCustomIconColor == true){
 
                 if let iconImage = self.iconImage {
-                    imageView?.image = iconImage.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+                    imageView?.image = iconImage.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
                 }
             }
             else{
                 
                 if let iconImage = self.iconImage {
-                    imageView?.image = iconImage.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                    imageView?.image = iconImage.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
                 }
             }
         }
     }
     
     ///The initial size of the icon. Ideally it has to match with the size of the icon in your LaunchScreen Splash view
-    open var iconInitialSize: CGSize = CGSize(width: 60, height: 60) {
+    @objc open var iconInitialSize: CGSize = CGSize(width: 60, height: 60) {
         
         didSet{
             
@@ -63,23 +63,26 @@ open class RevealingSplashView: UIView, SplashAnimatable{
         }
     }
     
+    /// The image view containing the background Image
+    @objc open var backgroundImageView: UIImageView?
+    
     /// THe image view containing the icon Image
-    open var imageView: UIImageView?
+    @objc open var imageView: UIImageView?
     
     /// The type of animation to use for the. Defaults to the twitter default animation
     open var animationType: SplashAnimationType = SplashAnimationType.twitter
     
     /// The duration of the animation, default to 1.5 seconds. In the case of heartBeat animation recommended value is 3
-    open var duration: Double = 1.5
+    @objc open var duration: Double = 1.5
     
     /// The delay of the animation, default to 0.5 seconds
-    open var delay: Double = 0.5
+    @objc open var delay: Double = 0.5
     
     /// The boolean to stop the heart beat animation, default to false (continuous beat)
-    open var heartAttack: Bool = false
+    @objc open var heartAttack: Bool = false
     
     /// The repeat counter for heart beat animation, default to 1
-    open var minimumBeats: Int = 1
+    @objc open var minimumBeats: Int = 1
     
     /**
      Default constructor of the class
@@ -90,7 +93,7 @@ open class RevealingSplashView: UIView, SplashAnimatable{
      
      - returns: The created RevealingSplashViewObject
      */
-    public init(iconImage: UIImage, iconInitialSize:CGSize, backgroundColor: UIColor)
+    @objc public init(iconImage: UIImage, iconInitialSize:CGSize, backgroundColor: UIColor)
     {
         //Sets the initial values of the image view and icon view
         self.imageView = UIImageView()
@@ -104,7 +107,7 @@ open class RevealingSplashView: UIView, SplashAnimatable{
         //Set the initial size and position
         imageView?.frame = CGRect(x: 0, y: 0, width: iconInitialSize.width, height: iconInitialSize.height)
         //Sets the content mode and set it to be centered
-        imageView?.contentMode = UIView.ContentMode.scaleAspectFit
+        imageView?.contentMode = UIViewContentMode.scaleAspectFit
         imageView?.center = self.center
         
         //Adds the icon to the view
@@ -112,6 +115,36 @@ open class RevealingSplashView: UIView, SplashAnimatable{
         
         //Sets the background color
         self.backgroundColor = backgroundColor
+        
+    }
+    
+    @objc public init(iconImage: UIImage, iconInitialSize:CGSize, backgroundImage: UIImage)
+    {
+        //Sets the initial values of the image view and icon view
+        self.imageView = UIImageView()
+        self.iconImage = iconImage
+        self.iconInitialSize = iconInitialSize
+        //Inits the view to the size of the screen
+        super.init(frame: (UIScreen.main.bounds))
+        
+        imageView?.image = iconImage
+        imageView?.tintColor = iconColor
+        //Set the initial size and position
+        imageView?.frame = CGRect(x: 0, y: 0, width: iconInitialSize.width, height: iconInitialSize.height)
+        //Sets the content mode and set it to be centered
+        imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        imageView?.center = self.center
+        
+        //Sets the background image
+        self.backgroundImageView = UIImageView()
+        backgroundImageView?.image = backgroundImage
+        backgroundImageView?.frame = UIScreen.main.bounds
+        backgroundImageView?.contentMode = UIViewContentMode.scaleAspectFill
+        
+        self.addSubview(backgroundImageView!)
+        
+        //Adds the icon to the view
+        self.addSubview(imageView!)
         
     }
 

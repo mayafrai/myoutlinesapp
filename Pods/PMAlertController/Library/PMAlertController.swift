@@ -3,7 +3,7 @@
 //  PMAlertController
 //
 //  Created by Paolo Musolino on 07/05/16.
-//  Copyright © 2016 Codeido. All rights reserved.
+//  Copyright © 2018 Codeido. All rights reserved.
 //
 
 import UIKit
@@ -21,35 +21,40 @@ import UIKit
     @IBOutlet weak open var alertViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak open var headerView: UIView!
     @IBOutlet weak open var headerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak open var headerViewTopSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak open var alertImage: UIImageView!
     @IBOutlet weak open var alertTitle: UILabel!
     @IBOutlet weak open var alertDescription: UILabel!
+    @IBOutlet weak open var alertContentStackViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak open var alertContentStackViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak open var alertContentStackViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak open var alertActionStackView: UIStackView!
-    @IBOutlet weak open var alertStackViewHeightConstraint: NSLayoutConstraint!
-    open var ALERT_STACK_VIEW_HEIGHT : CGFloat = UIScreen.main.bounds.height < 568.0 ? 40 : 62 //if iphone 4 the stack_view_height is 40, else 62
-    var animator : UIDynamicAnimator?
+    @IBOutlet weak open var alertActionStackViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak open var alertActionStackViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak open var alertActionStackViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak open var alertActionStackViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak open var alertActionStackViewBottomConstraint: NSLayoutConstraint!
     
-    open var textFields: [UITextField] = []
+    @objc open var ALERT_STACK_VIEW_HEIGHT : CGFloat = UIScreen.main.bounds.height < 568.0 ? 40 : 62 //if iphone 4 the stack_view_height is 40, else 62
+    @objc var animator : UIDynamicAnimator?
     
-    open var gravityDismissAnimation = true
-    open var dismissWithBackgroudTouch = false // enable touch background to dismiss. Off by default.
+    @objc open var textFields: [UITextField] = []
+    
+    @objc open var gravityDismissAnimation = true
+    @objc open var dismissWithBackgroudTouch = false // enable touch background to dismiss. Off by default.
     
     //MARK: - Lifecycle
     
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: nil)
-        
-
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name:Notification.Name.UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name:Notification.Name.UIKeyboardDidHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardDidHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     
@@ -85,16 +90,15 @@ import UIKit
         alertActionStackView.addArrangedSubview(alertAction)
         
         if alertActionStackView.arrangedSubviews.count > 2 || hasTextFieldAdded(){
-            alertStackViewHeightConstraint.constant = ALERT_STACK_VIEW_HEIGHT * CGFloat(alertActionStackView.arrangedSubviews.count)
+            alertActionStackViewHeightConstraint.constant = ALERT_STACK_VIEW_HEIGHT * CGFloat(alertActionStackView.arrangedSubviews.count)
             alertActionStackView.axis = .vertical
         }
         else{
-            alertStackViewHeightConstraint.constant = ALERT_STACK_VIEW_HEIGHT
+            alertActionStackViewHeightConstraint.constant = ALERT_STACK_VIEW_HEIGHT
             alertActionStackView.axis = .horizontal
         }
         
-        alertAction.addTarget(self, action: #selector(PMAlertController.dismissAlertController(_:)), for: UIControlEvents.touchUpInside)
-        
+        alertAction.addTarget(self, action: #selector(PMAlertController.dismissAlertController(_:)), for: .touchUpInside)
     }
     
     @objc fileprivate func dismissAlertController(_ sender: PMAlertAction){
@@ -121,14 +125,14 @@ import UIKit
         configuration (textField)
         _addTextField(textField)
     }
-    func _addTextField(_ textField: UITextField){
+    @objc func _addTextField(_ textField: UITextField){
         alertActionStackView.addArrangedSubview(textField)
-        alertStackViewHeightConstraint.constant = ALERT_STACK_VIEW_HEIGHT * CGFloat(alertActionStackView.arrangedSubviews.count)
+        alertActionStackViewHeightConstraint.constant = ALERT_STACK_VIEW_HEIGHT * CGFloat(alertActionStackView.arrangedSubviews.count)
         alertActionStackView.axis = .vertical
         textFields.append(textField)
     }
     
-    func hasTextFieldAdded () -> Bool{
+    @objc func hasTextFieldAdded () -> Bool{
         return textFields.count > 0
     }
     
@@ -188,13 +192,14 @@ import UIKit
     //MARK: - Keyboard avoiding
     
     var tempFrameOrigin: CGPoint?
-    var keyboardHasBeenShown:Bool = false
+    @objc var keyboardHasBeenShown:Bool = false
     
     @objc func keyboardWillShow(_ notification: Notification) {
         keyboardHasBeenShown = true
         
         guard let userInfo = (notification as NSNotification).userInfo else {return}
         guard let endKeyBoardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.minY else {return}
+        
         if tempFrameOrigin == nil {
             tempFrameOrigin = alertView.frame.origin
         }

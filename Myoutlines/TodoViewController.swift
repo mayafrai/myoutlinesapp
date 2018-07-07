@@ -72,7 +72,7 @@ class TodoViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
 
         
-        alertVC.addAction(PMAlertAction(title: "Add", style: .default, action : { action in
+        alertVC.addAction(PMAlertAction(title: "Add", style: .default, action: {
             if let todo = alertVC.textFields.first?.text {
                 self.todos.append(todo)
                 let detail = alertVC.textFields.last?.text

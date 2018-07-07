@@ -8,25 +8,25 @@
 import UIKit
 
 extension UITableView {
-    var swipeCells: [SwipeTableViewCell] {
+    @objc var swipeCells: [SwipeTableViewCell] {
         return visibleCells.compactMap({ $0 as? SwipeTableViewCell })
     }
     
-    func hideSwipeCell() {
+    @objc func hideSwipeCell() {
         swipeCells.forEach { $0.hideSwipe(animated: true) }
     }
 }
 
 extension UICollectionView {
-    var swipeCells: [SwipeCollectionViewCell] {
+    @objc var swipeCells: [SwipeCollectionViewCell] {
         return visibleCells as? [SwipeCollectionViewCell] ?? []
     }
     
-    func hideSwipeCell() {
+    @objc func hideSwipeCell() {
         swipeCells.forEach { $0.hideSwipe(animated: true) }
     }
     
-    func setGestureEnabled(_ enabled: Bool) {
+    @objc func setGestureEnabled(_ enabled: Bool) {
         gestureRecognizers?.forEach {
             guard $0 != panGestureRecognizer else { return }
             
@@ -47,7 +47,7 @@ extension UIScrollView {
         }
     }
     
-    func hideSwipeables() {
+    @objc func hideSwipeables() {
         switch self {
         case let tableView as UITableView:
             tableView.hideSwipeCell()
@@ -60,7 +60,7 @@ extension UIScrollView {
 }
 
 extension UIPanGestureRecognizer {
-    func elasticTranslation(in view: UIView?, withLimit limit: CGSize, fromOriginalCenter center: CGPoint, applyingRatio ratio: CGFloat = 0.20) -> CGPoint {
+    @objc func elasticTranslation(in view: UIView?, withLimit limit: CGSize, fromOriginalCenter center: CGPoint, applyingRatio ratio: CGFloat = 0.20) -> CGPoint {
         let translation = self.translation(in: view)
 
         guard let sourceView = self.view else {

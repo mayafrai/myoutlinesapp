@@ -47,7 +47,7 @@ protocol SwipeAnimator {
 
 @available(iOS 10.0, *)
 extension UIViewPropertyAnimator: SwipeAnimator {
-    func addCompletion(completion: @escaping (Bool) -> Void) {
+    @objc func addCompletion(completion: @escaping (Bool) -> Void) {
         addCompletion { position in
             completion(position == .end)
         }

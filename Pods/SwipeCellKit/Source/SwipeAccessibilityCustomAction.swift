@@ -9,10 +9,10 @@
 import UIKit
 
 class SwipeAccessibilityCustomAction: UIAccessibilityCustomAction {
-    let action: SwipeAction
-    let indexPath: IndexPath
+    @objc let action: SwipeAction
+    @objc let indexPath: IndexPath
     
-    init(action: SwipeAction, indexPath: IndexPath, target: Any, selector: Selector) {
+    @objc init(action: SwipeAction, indexPath: IndexPath, target: Any, selector: Selector) {
         
         self.action = action
         self.indexPath = indexPath

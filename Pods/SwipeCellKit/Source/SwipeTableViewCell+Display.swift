@@ -9,7 +9,7 @@ import UIKit
 
 extension SwipeTableViewCell {
     /// The point at which the origin of the cell is offset from the non-swiped origin.
-    public var swipeOffset: CGFloat {
+    @objc public var swipeOffset: CGFloat {
         set { setSwipeOffset(newValue, animated: false) }
         get { return frame.midX - bounds.midX }
     }
@@ -21,7 +21,7 @@ extension SwipeTableViewCell {
      
      - parameter completion: The closure to be executed once the animation has finished. A `Boolean` argument indicates whether or not the animations actually finished before the completion handler was called.     
      */
-    public func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
+    @objc public func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
         swipeController.hideSwipe(animated: animated, completion: completion)
     }
     
@@ -49,7 +49,7 @@ extension SwipeTableViewCell {
      
      - parameter completion: The closure to be executed once the animation has finished. A `Boolean` argument indicates whether or not the animations actually finished before the completion handler was called.
      */
-    public func setSwipeOffset(_ offset: CGFloat, animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
+    @objc public func setSwipeOffset(_ offset: CGFloat, animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
         swipeController.setSwipeOffset(offset, animated: animated, completion: completion)
     }
 }
